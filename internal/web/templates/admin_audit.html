@@ -1,0 +1,21 @@
+{{define "content"}}
+<div class="page-head"><h1>Activity log</h1></div>
+<div class="card">
+  <table>
+    <thead><tr><th>When</th><th>Who</th><th>Action</th><th>Item</th><th>Detail</th></tr></thead>
+    <tbody>
+    {{range .Data.Events}}
+      <tr>
+        <td>{{shortTime .CreatedAt}}</td>
+        <td>{{if .Username}}{{.Username}}{{else}}<span class="muted">—</span>{{end}}</td>
+        <td>{{.Action}}</td>
+        <td>{{if .EntityType}}{{.EntityType}} {{.EntityID}}{{end}}</td>
+        <td class="muted">{{.Detail}}</td>
+      </tr>
+    {{else}}
+      <tr><td colspan="5" class="empty">No activity recorded yet.</td></tr>
+    {{end}}
+    </tbody>
+  </table>
+</div>
+{{end}}

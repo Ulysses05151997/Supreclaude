@@ -1,0 +1,43 @@
+{{define "content"}}
+{{$c := .Data.Client}}
+<div class="page-head">
+  <h1>{{$c.Name}}</h1>
+  <a class="btn secondary" href="/clients/{{$c.ID}}/edit">Edit</a>
+  <a class="btn secondary" href="/clients">Back to list</a>
+</div>
+
+<div class="card">
+  <dl class="detail-grid">
+    <dt>Phone</dt><dd>{{if $c.Phone}}{{$c.Phone}}{{else}}<span class="muted">—</span>{{end}}</dd>
+    <dt>Email</dt><dd>{{if $c.Email}}<a href="mailto:{{$c.Email}}">{{$c.Email}}</a>{{else}}<span class="muted">—</span>{{end}}</dd>
+    <dt>Address</dt><dd>{{if $c.Address}}{{nl2br $c.Address}}{{else}}<span class="muted">—</span>{{end}}</dd>
+    <dt>Birthday</dt><dd>{{if $c.Birthday}}{{$c.Birthday}}{{else}}<span class="muted">—</span>{{end}}</dd>
+    <dt>Type of case</dt><dd>{{if $c.CaseType}}{{$c.CaseType}}{{else}}<span class="muted">—</span>{{end}}</dd>
+    <dt>Adversary</dt><dd>{{if $c.Adversary}}{{$c.Adversary}}{{else}}<span class="muted">—</span>{{end}}</dd>
+    <dt>Notes</dt><dd>{{if $c.Notes}}{{nl2br $c.Notes}}{{else}}<span class="muted">—</span>{{end}}</dd>
+  </dl>
+</div>
+
+<div class="card files">
+  <div class="page-head"><h1 style="font-size:1.1rem">Case files</h1></div>
+  {{if .Data.FilesEnabled}}
+    <div id="files-list" hx-get="/clients/{{$c.ID}}/files" hx-trigger="load" hx-swap="innerHTML">
+      <p class="muted">Loading files…</p>
+    </div>
+  {{else if $c.HasFolder}}
+    <p class="muted">A folder is set (<code>{{$c.FolderPath}}</code>) but case-file
+    browsing is not configured on the server.</p>
+  {{else}}
+    <p class="muted">No case-files folder is linked to this client yet. Add a
+    folder path on the Edit screen to browse their documents here.</p>
+  {{end}}
+</div>
+
+<div class="card">
+  <form method="post" action="/clients/{{$c.ID}}/delete"
+        onsubmit="return confirm('Remove {{$c.Name}} from the list? (The record is kept and can be restored by an administrator.)');">
+    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+    <button class="btn danger small" type="submit">Remove client</button>
+  </form>
+</div>
+{{end}}

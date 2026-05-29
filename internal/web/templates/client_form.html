@@ -1,0 +1,62 @@
+{{define "content"}}
+{{$c := .Data.Client}}
+{{$action := "/clients"}}
+{{if not .Data.IsNew}}{{$action = printf "/clients/%d" $c.ID}}{{end}}
+<div class="page-head">
+  <h1>{{if .Data.IsNew}}Add client{{else}}Edit {{$c.Name}}{{end}}</h1>
+</div>
+<div class="card">
+  <form method="post" action="{{$action}}">
+    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+    <div class="field">
+      <label for="name">Name *</label>
+      <input id="name" name="name" value="{{$c.Name}}" required autofocus>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" value="{{$c.Phone}}">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" value="{{$c.Email}}">
+      </div>
+    </div>
+    <div class="field">
+      <label for="address">Address</label>
+      <textarea id="address" name="address">{{$c.Address}}</textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="birthday">Birthday</label>
+        <input id="birthday" name="birthday" type="date" value="{{$c.Birthday}}">
+      </div>
+      <div class="field">
+        <label for="case_type">Type of case</label>
+        <input id="case_type" name="case_type" value="{{$c.CaseType}}">
+      </div>
+    </div>
+    <div class="field">
+      <label for="adversary">Adversary</label>
+      <input id="adversary" name="adversary" value="{{$c.Adversary}}">
+    </div>
+    <div class="field">
+      <label for="folder_path">Case-files folder</label>
+      <input id="folder_path" name="folder_path" value="{{$c.FolderPath}}"
+             placeholder="e.g. Smith-2026 (relative to the server's case-files folder)">
+      <small class="muted">A folder name/path under the server's case-files location.
+      Leave blank if there is no folder yet.</small>
+    </div>
+    <div class="field">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="notes">{{$c.Notes}}</textarea>
+    </div>
+    <button class="btn" type="submit">Save</button>
+    {{if .Data.IsNew}}
+      <a class="btn secondary" href="/clients">Cancel</a>
+    {{else}}
+      <a class="btn secondary" href="/clients/{{$c.ID}}">Cancel</a>
+    {{end}}
+  </form>
+</div>
+{{end}}

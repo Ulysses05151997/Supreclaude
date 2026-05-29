@@ -1,0 +1,37 @@
+{{define "layout.html"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Title}} · Mederos &amp; Associates</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <script src="/static/htmx.min.js" defer></script>
+</head>
+<body>
+{{if .LoggedIn}}
+  <header class="topbar">
+    <a class="brand" href="/clients">Mederos &amp; Associates</a>
+    <nav>
+      <a href="/clients">Clients</a>
+      {{if .User.IsAdmin}}
+        <a href="/admin/users">Staff</a>
+        <a href="/admin/audit">Activity</a>
+      {{end}}
+    </nav>
+    <div class="user-menu">
+      <span class="who">{{if .User.DisplayName}}{{.User.DisplayName}}{{else}}{{.User.Username}}{{end}}</span>
+      <a href="/change-password" class="muted-link">Password</a>
+      <form method="post" action="/logout" class="inline">
+        <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+        <button type="submit" class="linkbtn">Sign out</button>
+      </form>
+    </div>
+  </header>
+{{end}}
+  <main class="container">
+    {{if .Flash}}<div class="flash">{{.Flash}}</div>{{end}}
+    {{template "content" .}}
+  </main>
+</body>
+</html>{{end}}

@@ -1,0 +1,35 @@
+# Mederos & Associates CRM — configuration
+# Copy this file to "config.toml" next to crm.exe and edit as needed.
+# Lines starting with # are comments. After editing, restart the service.
+
+# Address and port the server listens on.
+#   "0.0.0.0:8080" = reachable from other office computers on the LAN.
+#   "127.0.0.1:8080" = only this machine (useful for testing).
+# If port 8080 is already in use, change it (e.g. 8088) here and in the
+# firewall rule.
+listen_addr = "0.0.0.0:8080"
+
+# Where the client database file lives. It is created automatically on first
+# run. Keep it on a local disk and back it up (see backup.bat).
+db_path = "C:\\CRM\\crm.db"
+
+# The folder on this server that contains the clients' case files. The app
+# lists and serves files from inside this folder only. Leave blank to disable
+# in-app file browsing.
+#   IMPORTANT: if you run as a Windows service, use a LOCAL path like
+#   "C:\\CaseFiles" or a UNC path like "\\\\SERVER\\Cases" — never a mapped
+#   drive letter (Z:\\), because services cannot see mapped drives.
+case_files_root = "C:\\CaseFiles"
+
+# How long a login stays valid, in hours.
+session_hours = 12
+
+# Where to write the application log.
+log_path = "C:\\CRM\\crm.log"
+
+# --- Optional: turn on HTTPS encryption (recommended for client data) ---
+# Provide paths to a certificate and private key (PEM format). When both are
+# set, the server uses https:// instead of http://. See the README for how to
+# generate a self-signed certificate and trust it on the office computers.
+# tls_cert = "C:\\CRM\\cert.pem"
+# tls_key  = "C:\\CRM\\key.pem"
