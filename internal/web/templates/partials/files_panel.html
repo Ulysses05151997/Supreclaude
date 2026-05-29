@@ -1,0 +1,31 @@
+{{if .Error}}
+  <p class="muted">{{.Error}}</p>
+{{else}}
+  <div class="crumb">
+    {{.Client.FolderPath}}{{if .CurrentRel}} · <code>{{.CurrentRel}}</code>{{end}}
+  </div>
+  <ul>
+    {{if .HasParent}}
+      <li>
+        <span class="ic">↩</span>
+        <a href="#" hx-get="/clients/{{.Client.ID}}/files?sub={{.ParentSub}}"
+           hx-target="#files-list" hx-swap="innerHTML">.. (up one level)</a>
+      </li>
+    {{end}}
+    {{range .Entries}}
+      <li>
+        {{if .IsDir}}
+          <span class="ic">📁</span>
+          <a href="#" hx-get="/clients/{{$.Client.ID}}/files?sub={{trimRoot .RelPath $.ClientRoot}}"
+             hx-target="#files-list" hx-swap="innerHTML">{{.Name}}/</a>
+        {{else}}
+          <span class="ic">📄</span>
+          <a href="/clients/{{$.Client.ID}}/files/download?path={{.RelPath}}">{{.Name}}</a>
+          <span class="sz">{{humanSize .Size}}</span>
+        {{end}}
+      </li>
+    {{else}}
+      <li class="muted">This folder is empty.</li>
+    {{end}}
+  </ul>
+{{end}}

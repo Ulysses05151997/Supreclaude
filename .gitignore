@@ -1,0 +1,19 @@
+# Build artifacts
+/dist/
+crm
+crm.exe
+
+# Runtime data — never commit client data or local config
+*.db
+*.db-wal
+*.db-shm
+config.toml
+*.log
+crm-backup-*.db
+
+# TLS material
+*.pem
+
+# OS cruft
+.DS_Store
+Thumbs.db

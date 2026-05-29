@@ -1,0 +1,17 @@
+<table>
+  <thead><tr><th>Name</th><th>Phone</th><th>Type of case</th><th>Adversary</th></tr></thead>
+  <tbody>
+  {{range .Clients}}
+    <tr onclick="window.location='/clients/{{.ID}}'" style="cursor:pointer">
+      <td><a href="/clients/{{.ID}}">{{.Name}}</a></td>
+      <td>{{if .Phone}}{{.Phone}}{{else}}<span class="muted">—</span>{{end}}</td>
+      <td>{{if .CaseType}}{{.CaseType}}{{else}}<span class="muted">—</span>{{end}}</td>
+      <td>{{if .Adversary}}{{.Adversary}}{{else}}<span class="muted">—</span>{{end}}</td>
+    </tr>
+  {{else}}
+    <tr><td colspan="4" class="empty">
+      {{if .Query}}No clients match “{{.Query}}”.{{else}}No clients yet. Click “Add client” to create the first one.{{end}}
+    </td></tr>
+  {{end}}
+  </tbody>
+</table>

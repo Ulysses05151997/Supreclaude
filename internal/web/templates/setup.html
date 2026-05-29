@@ -1,0 +1,26 @@
+{{define "content"}}
+<div class="auth-wrap card">
+  <h1>Welcome</h1>
+  <p class="muted">No accounts exist yet. Create the first administrator account
+  to get started. You can add staff accounts afterwards.</p>
+  <form method="post" action="/setup">
+    <div class="field">
+      <label for="display_name">Your name</label>
+      <input id="display_name" name="display_name" placeholder="e.g. Jane Mederos">
+    </div>
+    <div class="field">
+      <label for="username">Username</label>
+      <input id="username" name="username" autocomplete="username" required>
+    </div>
+    <div class="field">
+      <label for="password">Password (8+ characters)</label>
+      <input id="password" name="password" type="password" autocomplete="new-password" required>
+    </div>
+    <div class="field">
+      <label for="password_confirm">Confirm password</label>
+      <input id="password_confirm" name="password_confirm" type="password" autocomplete="new-password" required>
+    </div>
+    <button class="btn" type="submit">Create administrator</button>
+  </form>
+</div>
+{{end}}

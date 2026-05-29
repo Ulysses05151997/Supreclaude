@@ -1,0 +1,70 @@
+{{define "content"}}
+<div class="page-head"><h1>Staff accounts</h1></div>
+
+<div class="card">
+  <table>
+    <thead><tr><th>Username</th><th>Name</th><th>Role</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    {{range .Data.Users}}
+      <tr>
+        <td>{{.Username}}</td>
+        <td>{{if .DisplayName}}{{.DisplayName}}{{else}}<span class="muted">—</span>{{end}}</td>
+        <td>{{.Role}}</td>
+        <td>{{if .IsActive}}Active{{else}}<span class="muted">Disabled</span>{{end}}</td>
+        <td class="actions">
+          <form method="post" action="/admin/users/{{.ID}}/reset-password" class="inline"
+                onsubmit="var p=prompt('New password for {{.Username}} (8+ characters):'); if(!p) return false; this.password.value=p; return true;">
+            <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+            <input type="hidden" name="password" value="">
+            <button class="btn secondary small" type="submit">Reset password</button>
+          </form>
+          {{if .IsActive}}
+          <form method="post" action="/admin/users/{{.ID}}/deactivate" class="inline">
+            <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+            <button class="btn secondary small" type="submit">Disable</button>
+          </form>
+          {{else}}
+          <form method="post" action="/admin/users/{{.ID}}/activate" class="inline">
+            <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+            <button class="btn secondary small" type="submit">Enable</button>
+          </form>
+          {{end}}
+        </td>
+      </tr>
+    {{end}}
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2 style="font-size:1.1rem;margin-top:0">Add a staff account</h2>
+  <form method="post" action="/admin/users">
+    <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+    <div class="field-row">
+      <div class="field">
+        <label for="nu">Username</label>
+        <input id="nu" name="username" required>
+      </div>
+      <div class="field">
+        <label for="nd">Name</label>
+        <input id="nd" name="display_name">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="np">Temporary password (8+ characters)</label>
+        <input id="np" name="password" type="text" required>
+      </div>
+      <div class="field">
+        <label for="nr">Role</label>
+        <select id="nr" name="role">
+          <option value="staff">Staff</option>
+          <option value="admin">Administrator</option>
+        </select>
+      </div>
+    </div>
+    <small class="muted">The new user will be asked to choose their own password the first time they sign in.</small>
+    <div style="margin-top:0.8rem"><button class="btn" type="submit">Create account</button></div>
+  </form>
+</div>
+{{end}}
