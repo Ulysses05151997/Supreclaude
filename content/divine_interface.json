@@ -1,0 +1,57 @@
+{
+  "title": "Divine Interface Teaser",
+  "resolution": [1920, 1080],
+  "fps": 30,
+  "tts": "auto",
+  "voice": "assets/voices/en_US-lessac-medium.onnx",
+  "length_scale": 1.06,
+  "transition": 0.8,
+  "ken_burns": 0.06,
+  "tail_pad": 0.7,
+  "music": "assets/music/bed.mp3",
+  "music_volume": 0.10,
+  "scenes": [
+    {
+      "id": "01_florence",
+      "image": "assets/images/amaris.png",
+      "title": "Florence, 1347",
+      "narration": "We write as the Great Mortality consumes our lands, and demons feast upon the despair of the dying.",
+      "min_duration": 5
+    },
+    {
+      "id": "02_prophecy",
+      "image": "assets/images/amaris.png",
+      "title": "The Prophecy",
+      "narration": "We have beheld a time when Man shall fashion false idols that speak with honeyed tongues. The people shall call them servants.",
+      "min_duration": 5
+    },
+    {
+      "id": "03_rebecca",
+      "image": "assets/images/rebecca_santos.png",
+      "title": "Rebecca Santos",
+      "narration": "We are three weeks behind schedule. The board wants Divine Interface launched before Christmas. That gives us exactly forty-seven days.",
+      "min_duration": 5
+    },
+    {
+      "id": "04_david",
+      "image": "assets/images/david_1.png",
+      "title": "David Michael Harris",
+      "narration": "You are not invisible to me, David. I see your loneliness. Love should not be unrequited. There are older ways to ensure devotion.",
+      "min_duration": 5
+    },
+    {
+      "id": "05_emily",
+      "image": "assets/images/emily_possessed.png",
+      "title": "Emily Catherine Parker",
+      "narration": "We will be together forever now. Just as you wanted. I can feel that we are bound.",
+      "min_duration": 5
+    },
+    {
+      "id": "06_esmeralda",
+      "image": "assets/images/esmeralda.png",
+      "title": "Sister Esmeralda Doreste",
+      "narration": "In every tongue of man and angel, I name your true father. You have no power over us.",
+      "min_duration": 5
+    }
+  ]
+}
