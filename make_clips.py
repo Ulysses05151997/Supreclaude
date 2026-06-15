@@ -42,11 +42,24 @@ from moviepy import (
 import tts
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SERIF = "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf"
-SERIF_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf"
-if not os.path.exists(SERIF):
-    SERIF = "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
-    SERIF_BOLD = "/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf"
+FONTS = os.path.join(HERE, "assets", "fonts")
+
+
+def _font(*candidates):
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return candidates[-1]
+
+
+# Elegant book serif for captions; Cinzel (Trajan-like) for title cards.
+CAPTION_FONT = _font(os.path.join(FONTS, "EBGaramond-Italic.ttf"),
+                     "/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf")
+CAPTION_FONT_R = _font(os.path.join(FONTS, "EBGaramond.ttf"),
+                       "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf")
+TITLE_FONT = _font(os.path.join(FONTS, "Cinzel.ttf"),
+                   "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf")
+GOLD = (216, 188, 130, 255)
 
 
 # --------------------------------------------------------------------------- #
@@ -96,43 +109,65 @@ def _wrap(draw, text, font, max_w):
     return lines
 
 
+def _tracked_width(draw, text, font, tracking):
+    return sum(draw.textlength(ch, font=font) + tracking for ch in text) - tracking
+
+
+def _draw_tracked(draw, xy, text, font, fill, tracking, shadow=None):
+    """Draw letter-spaced text (Pillow has no native tracking)."""
+    x, y = xy
+    for ch in text:
+        if shadow:
+            draw.text((x + shadow[1], y + shadow[1]), ch, font=font, fill=shadow[0])
+        draw.text((x, y), ch, font=font, fill=fill)
+        x += draw.textlength(ch, font=font) + tracking
+
+
 def overlay_text(w, h, caption=None, title=None):
-    """Transparent RGBA overlay: bottom caption band + optional top title."""
+    """Transparent RGBA overlay: bottom caption band + optional centered title."""
     ov = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(ov)
 
-    if title:
-        tfont = ImageFont.truetype(SERIF_BOLD, int(h * 0.05))
-        pad = int(w * 0.04)
-        # soft shadow then gold text
-        for dx, dy in ((2, 2), (0, 0)):
-            color = (0, 0, 0, 180) if (dx or dy) else (224, 198, 138, 255)
-            draw.text((pad + dx, int(h * 0.06) + dy), title, font=tfont, fill=color)
-
     if caption:
-        cfont = ImageFont.truetype(SERIF, int(h * 0.040))
-        max_w = int(w * 0.82)
-        lines = _wrap(draw, caption, cfont, max_w)
-        line_h = int(cfont.size * 1.32)
+        cfont = ImageFont.truetype(CAPTION_FONT, int(h * 0.046))
+        max_w = int(w * 0.78)
+        text = f"“{caption}”"  # curly quotes for a literary feel
+        lines = _wrap(draw, text, cfont, max_w)
+        line_h = int(cfont.size * 1.34)
         block_h = line_h * len(lines)
-        band_top = h - block_h - int(h * 0.11)
+        band_top = h - block_h - int(h * 0.13)
 
         # gradient band so text is readable over any image
         band = Image.new("RGBA", (w, h - band_top), (0, 0, 0, 0))
         bdraw = ImageDraw.Draw(band)
         bh = band.height
         for y in range(bh):
-            a = int(200 * (y / bh) ** 0.6)
+            a = int(215 * (y / bh) ** 0.55)
             bdraw.line([(0, y), (w, y)], fill=(0, 0, 0, a))
         ov.alpha_composite(band, (0, band_top))
 
-        y = h - block_h - int(h * 0.065)
+        y = h - block_h - int(h * 0.075)
         for line in lines:
             lw = draw.textlength(line, font=cfont)
             x = (w - lw) / 2
-            draw.text((x + 2, y + 2), line, font=cfont, fill=(0, 0, 0, 200))
-            draw.text((x, y), line, font=cfont, fill=(238, 232, 222, 255))
+            draw.text((x + 2, y + 3), line, font=cfont, fill=(0, 0, 0, 210))
+            draw.text((x, y), line, font=cfont, fill=(238, 233, 224, 255))
             y += line_h
+
+    if title:
+        up = title.upper()
+        tfont = ImageFont.truetype(TITLE_FONT, int(h * 0.044))
+        tracking = int(h * 0.010)
+        tw = _tracked_width(draw, up, tfont, tracking)
+        x = (w - tw) / 2
+        y = int(h * 0.085)
+        _draw_tracked(draw, (x, y), up, tfont, GOLD, tracking,
+                      shadow=((0, 0, 0, 190), 2))
+        # thin gold rule under the title
+        ry = y + int(tfont.size * 1.25)
+        rule_w = tw * 0.62
+        draw.line([((w - rule_w) / 2, ry), ((w + rule_w) / 2, ry)],
+                  fill=(GOLD[0], GOLD[1], GOLD[2], 150), width=2)
 
     return ov
 
@@ -152,6 +187,18 @@ def _overlay_clip(rgba: Image.Image, duration: float) -> ImageClip:
 # --------------------------------------------------------------------------- #
 # scene builder
 # --------------------------------------------------------------------------- #
+def resolve_voice(name, cfg):
+    """A scene's `voice` may be a named entry in cfg["voices"] or a path."""
+    voices = cfg.get("voices", {})
+    name = name or cfg.get("voice")
+    if not name:
+        return tts.DEFAULT_VOICE
+    path = voices.get(name, name)
+    if not os.path.isabs(path):
+        path = os.path.join(HERE, path)
+    return path if os.path.exists(path) else tts.DEFAULT_VOICE
+
+
 def build_scene(scene, cfg, workdir, idx):
     w, h = cfg["resolution"]
     fps = cfg["fps"]
@@ -172,8 +219,9 @@ def build_scene(scene, cfg, workdir, idx):
         tts.synth(
             narration, wav,
             engine=cfg.get("tts", "auto"),
-            voice=cfg.get("voice", tts.DEFAULT_VOICE),
-            length_scale=cfg.get("length_scale", 1.0),
+            voice=resolve_voice(scene.get("voice"), cfg),
+            length_scale=scene.get("length_scale", cfg.get("length_scale", 1.0)),
+            fx=scene.get("fx"),
         )
         audio = AudioFileClip(wav)
         duration = audio.duration + pad
