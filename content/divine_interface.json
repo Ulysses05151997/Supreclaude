@@ -41,7 +41,7 @@
     },
     {
       "id": "03_rebecca",
-      "image": "assets/images/rebecca_santos.png",
+      "image": "assets/images/rebecca_santos.jpg",
       "title": "Rebecca Santos",
       "voice": "rebecca",
       "length_scale": 0.99,
@@ -50,7 +50,7 @@
     },
     {
       "id": "04_temptation",
-      "image": "assets/images/david_1.png",
+      "image": "assets/images/david_1.jpg",
       "title": "David Michael Harris",
       "voice": "entity",
       "fx": "entity",
@@ -60,7 +60,7 @@
     },
     {
       "id": "05_emily",
-      "image": "assets/images/emily_possessed.png",
+      "image": "assets/images/emily_possessed.jpg",
       "title": "Emily Catherine Parker",
       "voice": "emily",
       "fx": "possessed",
@@ -70,7 +70,7 @@
     },
     {
       "id": "06_malphas",
-      "image": "assets/images/entity_malphas.png",
+      "image": "assets/images/entity_malphas.jpg",
       "title": "Malphas",
       "voice": "entity",
       "fx": "entity",
@@ -80,7 +80,7 @@
     },
     {
       "id": "07_esmeralda",
-      "image": "assets/images/esmeralda.png",
+      "image": "assets/images/esmeralda.jpg",
       "title": "Sister Esmeralda Doreste",
       "voice": "esmeralda",
       "length_scale": 1.02,
