@@ -199,19 +199,45 @@ def resolve_voice(name, cfg):
     return path if os.path.exists(path) else tts.DEFAULT_VOICE
 
 
+def make_title_card(w, h, title, subtitle=None):
+    """Black act-title card: centered Cinzel title, gold rule, optional subtitle."""
+    img = Image.new("RGB", (w, h), (6, 5, 4))
+    # faint warm radial glow center
+    glow = Image.new("L", (w, h), 0)
+    gd = ImageDraw.Draw(glow)
+    gd.ellipse([w * 0.2, h * 0.1, w * 0.8, h * 0.9], fill=60)
+    glow = glow.filter(ImageFilter.GaussianBlur(180))
+    img = Image.composite(Image.new("RGB", (w, h), (28, 22, 14)), img, glow)
+
+    draw = ImageDraw.Draw(img)
+    up = (title or "").upper()
+    tfont = ImageFont.truetype(TITLE_FONT, int(h * 0.072))
+    tracking = int(h * 0.014)
+    tw = _tracked_width(draw, up, tfont, tracking)
+    x = (w - tw) / 2
+    y = h * 0.40
+    _draw_tracked(draw, (x, y), up, tfont, GOLD, tracking, shadow=((0, 0, 0, 220), 3))
+
+    ry = y + tfont.size * 1.35
+    rule_w = max(tw * 0.7, w * 0.18)
+    draw.line([((w - rule_w) / 2, ry), ((w + rule_w) / 2, ry)],
+              fill=(GOLD[0], GOLD[1], GOLD[2]), width=2)
+
+    if subtitle:
+        sfont = ImageFont.truetype(CAPTION_FONT, int(h * 0.038))
+        sw = draw.textlength(subtitle, font=sfont)
+        draw.text(((w - sw) / 2, ry + h * 0.04), subtitle, font=sfont,
+                  fill=(214, 206, 196))
+    return img
+
+
 def build_scene(scene, cfg, workdir, idx):
     w, h = cfg["resolution"]
     fps = cfg["fps"]
     pad = cfg.get("tail_pad", 0.6)
     zoom = cfg.get("ken_burns", 0.06)
 
-    img_path = scene["image"]
-    if not os.path.isabs(img_path):
-        img_path = os.path.join(HERE, img_path)
-    if not os.path.exists(img_path):
-        raise FileNotFoundError(f"scene {idx}: image not found: {img_path}")
-
-    # narration -> audio + duration
+    # narration -> audio + duration (shared by cards and image scenes)
     narration = scene.get("narration", "").strip()
     audio = None
     if narration:
@@ -226,8 +252,27 @@ def build_scene(scene, cfg, workdir, idx):
         audio = AudioFileClip(wav)
         duration = audio.duration + pad
     else:
-        duration = float(scene.get("duration", 5.0))
+        duration = float(scene.get("duration", 4.0))
     duration = max(duration, float(scene.get("min_duration", 3.0)))
+
+    # --- act/title card scene (no portrait) ---
+    if scene.get("card") or not scene.get("image"):
+        card = _img_clip(make_title_card(w, h, scene.get("title"),
+                                         scene.get("subtitle")), duration)
+        card = card.resized(lambda t: 1 + 0.02 * (t / duration))
+        scene_clip = CompositeVideoClip([card], size=(w, h)).with_duration(duration)
+        scene_clip = scene_clip.with_effects(
+            [vfx.CrossFadeIn(0.6), vfx.CrossFadeOut(0.6)])
+        if audio is not None:
+            scene_clip = scene_clip.with_audio(audio)
+        return scene_clip.with_fps(fps)
+
+    # --- portrait scene ---
+    img_path = scene["image"]
+    if not os.path.isabs(img_path):
+        img_path = os.path.join(HERE, img_path)
+    if not os.path.exists(img_path):
+        raise FileNotFoundError(f"scene {idx}: image not found: {img_path}")
 
     # base frame + ken burns zoom-in (cropped to frame by the composite)
     base = _img_clip(compose_frame(img_path, w, h), duration)
