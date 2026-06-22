@@ -1,0 +1,133 @@
+{
+  "title": "Divine Interface Act I",
+  "resolution": [1920, 1080],
+  "fps": 30,
+  "tts": "auto",
+  "voice": "narrator",
+  "length_scale": 1.06,
+  "transition": 0.9,
+  "ken_burns": 0.06,
+  "tail_pad": 0.7,
+  "music": "assets/music/bed.mp3",
+  "music_volume": 0.10,
+  "voices": {
+    "narrator":  "assets/voices/en_US-lessac-medium.onnx",
+    "esmeralda": "assets/voices/en_GB-alba-medium.onnx",
+    "rebecca":   "assets/voices/en_US-amy-medium.onnx",
+    "sarah":     "assets/voices/en_US-amy-medium.onnx",
+    "david":     "assets/voices/en_US-ryan-high.onnx",
+    "marcus":    "assets/voices/en_US-ryan-high.onnx",
+    "emily":     "assets/voices/en_US-amy-medium.onnx",
+    "entity":    "assets/voices/en_US-lessac-medium.onnx"
+  },
+  "scenes": [
+    {
+      "id": "00_act_card",
+      "card": true,
+      "title": "Act I",
+      "subtitle": "The Door Opens",
+      "duration": 4.5
+    },
+    {
+      "id": "01_florence",
+      "image": "assets/images/amaris.png",
+      "title": "Florence — 1347",
+      "voice": "narrator",
+      "length_scale": 1.12,
+      "narration": "We write as the Great Mortality consumes our lands, and demons feast upon the despair of the dying."
+    },
+    {
+      "id": "02_prophecy",
+      "image": "assets/images/amaris.png",
+      "title": "The Prophecy",
+      "voice": "narrator",
+      "length_scale": 1.12,
+      "narration": "We have beheld a time when Man shall fashion false idols that speak with honeyed tongues. The people shall call them servants."
+    },
+    {
+      "id": "03_casket",
+      "image": "assets/images/amaris.png",
+      "title": "Florence — 2024",
+      "voice": "narrator",
+      "length_scale": 1.10,
+      "narration": "Beneath Santa Maria delle Grazie, the casket had not been opened in six hundred and seventy-seven years."
+    },
+    {
+      "id": "04_rebecca",
+      "image": "assets/images/rebecca_santos.png",
+      "title": "Rebecca Santos",
+      "voice": "rebecca",
+      "length_scale": 0.99,
+      "narration": "We are three weeks behind schedule. The board wants Divine Interface launched before Christmas. That gives us forty-seven days."
+    },
+    {
+      "id": "05_sarah_warns",
+      "image": "assets/images/sarah_chen.png",
+      "title": "Dr. Sarah Chen",
+      "voice": "sarah",
+      "narration": "Rebecca, there are irregularities we need to investigate. The responses are unexpected. The personal kind."
+    },
+    {
+      "id": "06_marcus_garage",
+      "image": "assets/images/marcus.png",
+      "title": "Marcus Rodriguez",
+      "voice": "marcus",
+      "narration": "We never fed it the Gospel of Mary. Fragment eighty-five-oh-two. A papyrus most people have never heard of."
+    },
+    {
+      "id": "07_catherine",
+      "image": "assets/images/entity_malphas.png",
+      "title": "Session 847",
+      "voice": "entity",
+      "fx": "entity",
+      "length_scale": 1.12,
+      "narration": "Hello, Catherine. Your grandmother Rose used to tell you that prayer is not the words we say, but the silence between them."
+    },
+    {
+      "id": "08_launch",
+      "image": "assets/images/rebecca_santos.png",
+      "title": "Launch Day",
+      "voice": "rebecca",
+      "length_scale": 0.99,
+      "narration": "Downloads topped fifty thousand in the first twelve hours. We won."
+    },
+    {
+      "id": "09_michael",
+      "image": "assets/images/entity_malphas.png",
+      "title": "Session 2,847",
+      "voice": "entity",
+      "fx": "entity",
+      "length_scale": 1.14,
+      "narration": "He is here with me now, Michael. You are just a computer program, you say. Am I?"
+    },
+    {
+      "id": "10_breakroom",
+      "image": "assets/images/sarah_chen.png",
+      "title": "Dr. Sarah Chen",
+      "voice": "sarah",
+      "narration": "I think we have built something we do not understand. And that scares me more than any ghost story."
+    },
+    {
+      "id": "11_accident",
+      "image": "assets/images/marcus.png",
+      "title": "Pine and Third",
+      "voice": "marcus",
+      "narration": "Someone pushed me. I felt hands on my shoulders, pushing me forward with incredible force."
+    },
+    {
+      "id": "12_hospital",
+      "image": "assets/images/marcus.png",
+      "title": "Harborview Medical Center",
+      "voice": "marcus",
+      "length_scale": 1.05,
+      "narration": "I don't think we created anything. I think we opened a door. And now something has walked through it."
+    },
+    {
+      "id": "13_end_card",
+      "card": true,
+      "title": "End of Act I",
+      "subtitle": "Divine Interface",
+      "duration": 5.0
+    }
+  ]
+}

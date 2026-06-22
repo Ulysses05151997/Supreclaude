@@ -1,0 +1,6 @@
+moviepy==2.1.2
+imageio-ffmpeg>=0.6.0
+pillow>=11.0.0
+numpy>=2.0.0
+piper-tts>=1.2.0
+gTTS>=2.5.0

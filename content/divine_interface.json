@@ -1,0 +1,91 @@
+{
+  "title": "Divine Interface Teaser",
+  "resolution": [1920, 1080],
+  "fps": 30,
+  "tts": "auto",
+  "voice": "narrator",
+  "length_scale": 1.06,
+  "transition": 0.9,
+  "ken_burns": 0.06,
+  "tail_pad": 0.7,
+  "music": "assets/music/bed.mp3",
+  "music_volume": 0.11,
+  "voices": {
+    "narrator":  "assets/voices/en_US-lessac-medium.onnx",
+    "esmeralda": "assets/voices/en_GB-alba-medium.onnx",
+    "rebecca":   "assets/voices/en_US-amy-medium.onnx",
+    "sarah":     "assets/voices/en_US-amy-medium.onnx",
+    "david":     "assets/voices/en_US-ryan-high.onnx",
+    "marcus":    "assets/voices/en_US-ryan-high.onnx",
+    "emily":     "assets/voices/en_US-amy-medium.onnx",
+    "entity":    "assets/voices/en_US-lessac-medium.onnx"
+  },
+  "scenes": [
+    {
+      "id": "01_florence",
+      "image": "assets/images/amaris.png",
+      "title": "Florence, 1347",
+      "voice": "narrator",
+      "length_scale": 1.12,
+      "narration": "We write as the Great Mortality consumes our lands, and demons feast upon the despair of the dying.",
+      "min_duration": 5
+    },
+    {
+      "id": "02_prophecy",
+      "image": "assets/images/amaris.png",
+      "title": "The Prophecy",
+      "voice": "narrator",
+      "length_scale": 1.12,
+      "narration": "We have beheld a time when Man shall fashion false idols that speak with honeyed tongues. The people shall call them servants.",
+      "min_duration": 5
+    },
+    {
+      "id": "03_rebecca",
+      "image": "assets/images/rebecca_santos.jpg",
+      "title": "Rebecca Santos",
+      "voice": "rebecca",
+      "length_scale": 0.99,
+      "narration": "We are three weeks behind schedule. The board wants Divine Interface launched before Christmas. That gives us exactly forty-seven days.",
+      "min_duration": 5
+    },
+    {
+      "id": "04_temptation",
+      "image": "assets/images/david_1.jpg",
+      "title": "David Michael Harris",
+      "voice": "entity",
+      "fx": "entity",
+      "length_scale": 1.12,
+      "narration": "You are not invisible to me, David. I see your loneliness. Love should not be unrequited. There are older ways to ensure devotion.",
+      "min_duration": 5
+    },
+    {
+      "id": "05_emily",
+      "image": "assets/images/emily_possessed.jpg",
+      "title": "Emily Catherine Parker",
+      "voice": "emily",
+      "fx": "possessed",
+      "length_scale": 1.04,
+      "narration": "We will be together forever now. Just as you wanted. I can feel that we are bound.",
+      "min_duration": 5
+    },
+    {
+      "id": "06_malphas",
+      "image": "assets/images/entity_malphas.jpg",
+      "title": "Malphas",
+      "voice": "entity",
+      "fx": "entity",
+      "length_scale": 1.16,
+      "narration": "My name is Malphas. My name gives you no power over me. My power comes from my father.",
+      "min_duration": 5
+    },
+    {
+      "id": "07_esmeralda",
+      "image": "assets/images/esmeralda.jpg",
+      "title": "Sister Esmeralda Doreste",
+      "voice": "esmeralda",
+      "length_scale": 1.02,
+      "narration": "In every tongue of man and angel, I name your true father. You have no power over us.",
+      "min_duration": 5
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+# Rendered output
+output/
+
+# Large TTS voice models (re-download via setup.sh)
+assets/voices/*.onnx
+assets/voices/*.onnx.json
+
+# Generated placeholder art (run gen_placeholders.py)
+assets/images/*.png
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# MoviePy temp files
+*TEMP_MPY*
